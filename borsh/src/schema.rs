@@ -381,7 +381,7 @@ impl BorshSchema for String {
     }
     #[inline]
     fn declaration() -> Declaration {
-        "string".into()
+        str::declaration()
     }
 }
 impl BorshSchema for str {
@@ -397,7 +397,7 @@ impl BorshSchema for str {
     }
     #[inline]
     fn declaration() -> Declaration {
-        "string".into()
+        "String".into()
     }
 }
 
@@ -815,19 +815,19 @@ mod tests {
         let actual_name = <(u64, core::num::NonZeroU16, String)>::declaration();
         let mut actual_defs = map!();
         <(u64, core::num::NonZeroU16, String)>::add_definitions_recursively(&mut actual_defs);
-        assert_eq!("Tuple<u64, nonzero_u16, string>", actual_name);
+        assert_eq!("Tuple<u64, nonzero_u16, String>", actual_name);
         assert_eq!(
             map! {
-                "Tuple<u64, nonzero_u16, string>" => Definition::Tuple {
+                "Tuple<u64, nonzero_u16, String>" => Definition::Tuple {
                     elements: vec![
                         "u64".to_string(),
                         "nonzero_u16".to_string(),
-                        "string".to_string()
+                        "String".to_string()
                     ]
                 },
                 "u64" => Definition::Primitive(8),
                 "nonzero_u16" => Definition::Primitive(2),
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -843,19 +843,19 @@ mod tests {
         let actual_name = <(u64, (u8, bool), String)>::declaration();
         let mut actual_defs = map!();
         <(u64, (u8, bool), String)>::add_definitions_recursively(&mut actual_defs);
-        assert_eq!("Tuple<u64, Tuple<u8, bool>, string>", actual_name);
+        assert_eq!("Tuple<u64, Tuple<u8, bool>, String>", actual_name);
         assert_eq!(
             map! {
-                "Tuple<u64, Tuple<u8, bool>, string>" => Definition::Tuple { elements: vec![
+                "Tuple<u64, Tuple<u8, bool>, String>" => Definition::Tuple { elements: vec![
                     "u64".to_string(),
                     "Tuple<u8, bool>".to_string(),
-                    "string".to_string(),
+                    "String".to_string(),
                 ]},
                 "Tuple<u8, bool>" => Definition::Tuple { elements: vec![ "u8".to_string(), "bool".to_string()]},
                 "u64" => Definition::Primitive(8),
                 "u8" => Definition::Primitive(1),
                 "bool" => Definition::Primitive(1),
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -871,19 +871,19 @@ mod tests {
         let actual_name = HashMap::<u64, String>::declaration();
         let mut actual_defs = map!();
         HashMap::<u64, String>::add_definitions_recursively(&mut actual_defs);
-        assert_eq!("HashMap<u64, string>", actual_name);
+        assert_eq!("HashMap<u64, String>", actual_name);
         assert_eq!(
             map! {
-                "HashMap<u64, string>" => Definition::Sequence {
+                "HashMap<u64, String>" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
-                    elements: "Tuple<u64, string>".to_string(),
+                    elements: "Tuple<u64, String>".to_string(),
                 } ,
-                "Tuple<u64, string>" => Definition::Tuple {
-                    elements: vec![ "u64".to_string(), "string".to_string()],
+                "Tuple<u64, String>" => Definition::Tuple {
+                    elements: vec![ "u64".to_string(), "String".to_string()],
                 },
                 "u64" => Definition::Primitive(8),
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -901,15 +901,15 @@ mod tests {
         let actual_name = HashSet::<String>::declaration();
         let mut actual_defs = map!();
         HashSet::<String>::add_definitions_recursively(&mut actual_defs);
-        assert_eq!("HashSet<string>", actual_name);
+        assert_eq!("HashSet<String>", actual_name);
         assert_eq!(
             map! {
-                "HashSet<string>" => Definition::Sequence {
+                "HashSet<String>" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
-                    elements: "string".to_string(),
+                    elements: "String".to_string(),
                 },
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -925,17 +925,17 @@ mod tests {
         let actual_name = BTreeMap::<u64, String>::declaration();
         let mut actual_defs = map!();
         BTreeMap::<u64, String>::add_definitions_recursively(&mut actual_defs);
-        assert_eq!("BTreeMap<u64, string>", actual_name);
+        assert_eq!("BTreeMap<u64, String>", actual_name);
         assert_eq!(
             map! {
-                "BTreeMap<u64, string>" => Definition::Sequence {
+                "BTreeMap<u64, String>" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
-                    elements: "Tuple<u64, string>".to_string(),
+                    elements: "Tuple<u64, String>".to_string(),
                 } ,
-                "Tuple<u64, string>" => Definition::Tuple { elements: vec![ "u64".to_string(), "string".to_string()]},
+                "Tuple<u64, String>" => Definition::Tuple { elements: vec![ "u64".to_string(), "String".to_string()]},
                 "u64" => Definition::Primitive(8),
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -951,15 +951,15 @@ mod tests {
         let actual_name = BTreeSet::<String>::declaration();
         let mut actual_defs = map!();
         BTreeSet::<String>::add_definitions_recursively(&mut actual_defs);
-        assert_eq!("BTreeSet<string>", actual_name);
+        assert_eq!("BTreeSet<String>", actual_name);
         assert_eq!(
             map! {
-                "BTreeSet<string>" => Definition::Sequence {
+                "BTreeSet<String>" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
-                    elements: "string".to_string(),
+                    elements: "String".to_string(),
                 },
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -1021,14 +1021,14 @@ mod tests {
     #[test]
     fn string() {
         let actual_name = str::declaration();
-        assert_eq!("string", actual_name);
+        assert_eq!("String", actual_name);
         let actual_name = String::declaration();
-        assert_eq!("string", actual_name);
+        assert_eq!("String", actual_name);
         let mut actual_defs = map!();
         String::add_definitions_recursively(&mut actual_defs);
         assert_eq!(
             map! {
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -1042,7 +1042,7 @@ mod tests {
         str::add_definitions_recursively(&mut actual_defs);
         assert_eq!(
             map! {
-                "string" => Definition::Sequence {
+                "String" => Definition::Sequence {
                     length_width: Definition::DEFAULT_LENGTH_WIDTH,
                     length_range: Definition::DEFAULT_LENGTH_RANGE,
                     elements: "u8".to_string()
@@ -1056,7 +1056,7 @@ mod tests {
     #[test]
     fn boxed_schema() {
         let boxed_declaration = Box::<str>::declaration();
-        assert_eq!("string", boxed_declaration);
+        assert_eq!("String", boxed_declaration);
         let boxed_declaration = Box::<[u8]>::declaration();
         assert_eq!("Vec<u8>", boxed_declaration);
     }
