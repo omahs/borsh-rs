@@ -450,7 +450,7 @@ mod tests {
                     tag_width: N,
                     variants: vec![
                         ("Just".into(), T::declaration()),
-                        ("Nothing".into(), "nil".into()),
+                        ("Nothing".into(), <()>::declaration()),
                     ],
                 };
                 crate::schema::add_definition(Self::declaration(), definition, definitions);
